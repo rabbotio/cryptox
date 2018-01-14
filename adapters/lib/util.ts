@@ -5,7 +5,7 @@ class Util {
     if (rate) return rate
 
     // Swap?
-    const swapped = pair[`${to}_${from}`]
+    const swapped = Object.assign({}, pair[`${to}_${from}`])
     if (!swapped) throw new Error(`Pair not exist : ${from}_${to}`)
 
     // Swap from normal rate

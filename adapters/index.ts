@@ -1,6 +1,7 @@
 import Util from './lib/util'
 
-class Cryptox {
+class Adapter {
+  static caches = null
   static getExchanges() {
     return {
       names: [
@@ -40,8 +41,8 @@ class Cryptox {
   // TODO : Injection, promise all
   static async getPrices() {
     // Get all pairs at once
-    const bx_pairs = await Cryptox.getPairs('bx')
-    const binance_price = await Cryptox.getPrice('binance', 'OMG', 'ETH')
+    const bx_pairs = await Adapter.getPairs('bx')
+    const binance_price = await Adapter.getPrice('binance', 'OMG', 'ETH')
 
     return {
       bx: {
@@ -54,12 +55,32 @@ class Cryptox {
     }
   }
 
+  // Support only bx ATM
+  static async fetchAndCache(...exchanges) {
+    // Get all pairs at once
+    Adapter.caches = Adapter.caches || {}
+    await Promise.all(exchanges.map(async exchange => {
+      Object.assign(Adapter.caches, {
+        [exchange]: await Adapter.getPairs(exchange)
+      })
+    }))
+  }
+
   static getTradeFee(exchange) {
-    return require(`./adapters/${exchange}`).getTradeFee()
+    return require(`./${exchange}`).getTradeFee()
   }
 
   static getWithdrawFee(exchange, symbol) {
-    return require(`./adapters/${exchange}`).getWithdrawFee(symbol)
+    return require(`./${exchange}`).getWithdrawFee(symbol)
+  }
+
+  static async getCachedPrice(exchange: String, from: String, to: String) {
+    if (Adapter.caches && Adapter.caches[`${exchange}`]) {
+      const info = Util.getPairInfo(Adapter.caches[`${exchange}`], from, to)
+      if (info) return info
+    }
+
+    return Adapter.getPrice(exchange, from, to)
   }
 
   static async getPrice(exchange: String, from: String, to: String) {
@@ -69,10 +90,10 @@ class Cryptox {
   }
 
   static async getPairs(exchange: String) {
-    const adapter = require(`./adapters/${exchange}`)
+    const adapter = require(`./${exchange}`)
     const pairs = await adapter.getPairs()
     return pairs
   }
 }
 
-export default Cryptox
+export default Adapter

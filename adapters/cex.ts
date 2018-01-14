@@ -3,12 +3,12 @@ import Util from './lib/util'
 class cex {
 
   static exchange = 'cex'
-  static API_URL = `https://cex.io/api/last_price/`
+  static API_URL = `https://cex.io/api/`
 
   static async getPrice(from, to) {
     const { API_URL, parse } = cex
     const { getJSON } = require('@rabbotio/fetcher')
-    const json = await getJSON(`${API_URL}ticker/price`, { symbol: `${from}${to}` })
+    const json = await getJSON(`${API_URL}last_price/${from}/${to}`)
     const pair = parse(json)
 
     return Util.getPairInfo(pair, from, to)

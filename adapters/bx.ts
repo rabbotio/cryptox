@@ -37,6 +37,7 @@ class bx {
         ask_total: asks.total,
         ask_volume: asks.volume,
         ask_highest: asks.highbid,
+        at: +new Date()
       }
     })
 

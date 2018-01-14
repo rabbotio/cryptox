@@ -1,10 +1,4 @@
-# cryptox
-[WIP] Crypto exchange parser and adapter for latest price
-
-## Example
-> See examples/index.ts
-```js
-import Cryptox from '@rabbotio/cryptox'
+import Cryptox from '../'
 
 (async () => {
   // Get each symbol
@@ -14,11 +8,6 @@ import Cryptox from '@rabbotio/cryptox'
 
   // Get all price and cached
   await Cryptox.fetchAndCache('bx')// TODO : , 'binance', 'cex')
-    Cryptox.getCachedPrice('bx', 'OMG', 'THB').then(data => console.log(`BX:OMG_THB = ${data.last}`))
-    Cryptox.getCachedPrice('bx', 'THB', 'OMG').then(data => console.log(`BX:THB_OMG = ${data.last}`))
-  })()
-```
-
-## TODO
-- [ ] fetchAndCache `binance`, `cex`
-- [ ] getPrices
+  Cryptox.getCachedPrice('bx', 'OMG', 'THB').then(data => console.log(`BX:OMG_THB = ${data.last}`))
+  Cryptox.getCachedPrice('bx', 'THB', 'OMG').then(data => console.log(`BX:THB_OMG = ${data.last}`))
+})()
