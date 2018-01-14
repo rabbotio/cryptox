@@ -1,0 +1,27 @@
+{
+  "name": "cryptox",
+  "version": "0.1.0",
+  "description": "Crypto exchange parser and adapter for latest price",
+  "main": "src/index.js",
+  "author": "katopz <katopz@gmail.com>",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "@rabbotio/fetcher": "^1.0.4",
+    "isomorphic-fetch": "^2.2.1"
+  },
+  "devDependencies": {
+    "@types/jest": "^22.0.1",
+    "@types/node": "^9.3.0",
+    "jest": "^22.0.6",
+    "typescript": "^2.6.2"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc -w",
+    "test": "jest --watchAll",
+    "mon": "nodemon index.js",
+    "start": "node index.js",
+    "release": "npm run build && npm publish --access=public"
+  }
+}
